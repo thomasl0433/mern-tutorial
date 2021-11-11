@@ -44,10 +44,12 @@ export default class Create extends Component {
 
     // When post request is sent to the create url, axios will add a new record(newperson) to the database.
     const newperson = {
-      person_name: this.person_name,
-      person_position: this.person_position,
-      person_level: this.person_level,
+      person_name: this.state.person_name,
+      person_position: this.state.person_position,
+      person_level: this.state.person_level,
     };
+
+    console.log(newperson)
 
     axios
       .post("http://localhost:3000/record/add", newperson)

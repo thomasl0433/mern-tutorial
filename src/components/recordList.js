@@ -1,8 +1,9 @@
-import React from "react";
-import axios from "axios";
+import React, { Component } from "react";
+// This will require to npm install axios
+import axios from 'axios';
 import { Link } from "react-router-dom";
 
-const Record = (props) => {
+const Record = (props) => (
   <tr>
     <td>{props.record.person_name}</td>
     <td>{props.record.person_position}</td>
@@ -18,10 +19,10 @@ const Record = (props) => {
         Delete
       </a>
     </td>
-  </tr>;
-};
+  </tr>
+);
 
-export default class RecordList extends React.Component {
+export default class RecordList extends Component {
   // This is the constructor that shall store our data retrieved from the database
   constructor(props) {
     super(props);
@@ -33,8 +34,8 @@ export default class RecordList extends React.Component {
   componentDidMount() {
     axios
       .get("http://localhost:3000/record/")
-      .then((res) => {
-        this.setState({ records: res.data });
+      .then((response) => {
+        this.setState({ records: response.data });
       })
       .catch(function (error) {
         console.log(error);
@@ -54,34 +55,34 @@ export default class RecordList extends React.Component {
 
   // This method will map out the users on the table
   recordList() {
-      return this.state.records.map((currentrecord) => {
-          return (
-              <Record 
-                record={currentrecord}
-                deleteRecord={this.deleteRecord}
-                key={currentrecord._id}
-              />
-          )
-      })
+    return this.state.records.map((currentrecord) => {
+      return (
+        <Record
+          record={currentrecord}
+          deleteRecord={this.deleteRecord}
+          key={currentrecord._id}
+        />
+      );
+    });
   }
 
   // This following section will display the table with the records of individuals.
   render() {
-      return (
-          <div>
-              <h3>Record List</h3>
-              <table className="table table-striped" style={{ marginTop: 20 }}>
-                  <thead>
-                      <tr>
-                          <th>Name</th>
-                          <th>Position</th>
-                          <th>Level</th>
-                          <th>Action</th>
-                      </tr>
-                  </thead>
-                  <tbody>{this.recordList()}</tbody>
-              </table>
-          </div>
-      )
+    return (
+      <div>
+        <h3>Record List</h3>
+        <table className="table table-striped" style={{ marginTop: 20 }}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Position</th>
+              <th>Level</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>{this.recordList()}</tbody>
+        </table>
+      </div>
+    );
   }
 }
